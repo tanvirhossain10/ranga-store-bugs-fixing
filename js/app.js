@@ -18,9 +18,9 @@ const showProducts = (products) => {
 
    document.getElementById("all-products").innerHTML = "";
 
-   const allProducts = products.slice(0, 10).map((pd) => pd);
+   const allProducts = products.slice(0, 20).map((pd) => pd);
    for (const product of allProducts) {
-      const image = product.image;
+      const image = product.image
       const div = document.createElement('div');
       div.classList.add('product');
       div.innerHTML = `<div class="single-product">
@@ -58,7 +58,6 @@ const showProductDetails = (product_id) => {
 };
 
 const showProductDetailsInModal = (product_details) => {
-   console.log(product_details);
    setInnerText('exampleModalLabel', product_details.title);
    setInnerText('product_Id', product_details.id);
    setInnerText('modal_body', product_details.description);
