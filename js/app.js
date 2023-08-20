@@ -44,14 +44,14 @@ let count = 0;
 
 const addToCart = (id, price) => {
    count = count + 1;
-   updatePrice('price', value);
+   updatePrice('price', id, price);
 
    updateTaxAndCharge();
+   updateTotal();
    document.getElementById('total-Products').innerText = count;
 };
 
 const showProductDetails = (product_id) => {
-   console.log(product_id);
    fetch(`https://fakestoreapi.com/products/${product_id}`)
       .then((res) => res.json())
       .then((data) => showProductDetailsInModal(data));
@@ -71,9 +71,9 @@ const getInputValue = (id) => {
 };
 
 // main price update function
-const updatePrice = (id, value) => {
+const updatePrice = (id, value, price) => {
    const convertedOldPrice = getInputValue(id);
-   const convertPrice = parseInt(value);
+   const convertPrice = parseInt(price);
    const total = convertedOldPrice + convertPrice;
    document.getElementById(id).innerText = Math.round(total);
 };
@@ -92,17 +92,17 @@ const setInnerText = (id, value, istrue) => {
 // update delivery charge and total Tax
 const updateTaxAndCharge = () => {
    const priceConverted = getInputValue('price');
-   if (priceConverted > 200) {
+   if (priceConverted < 200) {
       setInnerText('delivery-charge', 30);
-      setInnerText('total-tax', priceConverted * 0.2);
+      setInnerText('total-tax', (priceConverted * 0.2).toFixed(2));
    }
    if (priceConverted > 400) {
       setInnerText('delivery-charge', 50);
-      setInnerText('total-tax', priceConverted * 0.3);
+      setInnerText('total-tax', (priceConverted * 0.3).toFixed(2));
    }
    if (priceConverted > 500) {
       setInnerText('delivery-charge', 60);
-      setInnerText('total-tax', priceConverted * 0.4);
+      setInnerText('total-tax', (priceConverted * 0.4).toFixed(2));
    }
 };
 
@@ -119,10 +119,14 @@ const updateTotal = () => {
 document.getElementById("search-btn").addEventListener("click", function () {
    const inputField = document.getElementById("input-value").value;
    const searchedProduct = arr[0].filter((p) => {
-      console.log(p.category)
-      return p.category === inputField;
+      return p.category === inputField || inputField === 'men' || inputField === 'women';
    });
    showProducts(searchedProduct);
 });
-
+ /*
+//  product categories list for help
+men's clothing
+jewelery
+electronics
+women's clothing */
 
